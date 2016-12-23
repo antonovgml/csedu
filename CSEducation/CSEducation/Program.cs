@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CSEducation
 {
@@ -14,6 +11,40 @@ namespace CSEducation
         static void Main(string[] args)
         {
 
+            task6();
+
+        }
+
+        static void task6()
+        {
+
+            EmployeeGenerator eg = new EmployeeGenerator();
+
+            // generating employees
+            List<Employee> employees = eg.generateEmployees(10);
+            
+            Console.WriteLine("Generated list of employees - unordered");
+            foreach (var empl in employees)            
+                Console.WriteLine(empl);
+
+            // sorting by salary
+            employees.Sort(new SalaryComparer());
+            Console.WriteLine("\nList of employees - sorted by salary");
+            foreach (var empl in employees)
+                Console.WriteLine(empl);
+
+            // sorting by personal info
+            employees.Sort(new PIComparer());
+            Console.WriteLine("\nList of employees - sorted by personal info");
+            foreach (var empl in employees)
+                Console.WriteLine(empl);
+
+        }
+
+
+        static void task2()
+        {
+
             Student ivanov = new Student("Ivan", "Ivanov", "G01", generateMark(Subjects.English), generateMark(Subjects.Maths), generateMark(Subjects.Physics));
             Student petrov = new Student("Petr", "Petrov", "G01", generateMark(Subjects.Arts), generateMark(Subjects.Singing), generateMark(Subjects.English), generateMark(Subjects.Maths), generateMark(Subjects.Physics));
             // EXAMPLE parameter with default value
@@ -22,9 +53,9 @@ namespace CSEducation
             Student doe = new Student(groupId: "G01", firstName: "John", lastName: "Doe");
 
             // EXAMPLE using params
-            Student smith = new Student("John", "Smith", "G01",  generateMark(Subjects.Arts), generateMark(Subjects.Singing), generateMark(Subjects.English), generateMark(Subjects.Maths), generateMark(Subjects.Physics));
-
-            Student[] studs = { ivanov, petrov, sidorov, doe, smith};
+            Student smith = new Student("John", "Smith", "G01", generateMark(Subjects.Arts), generateMark(Subjects.Singing), generateMark(Subjects.English), generateMark(Subjects.Maths), generateMark(Subjects.Physics));
+            Student smith2 = new Student("John", "Smith", "G01", generateMark(Subjects.Arts), generateMark(Subjects.Singing), generateMark(Subjects.English), generateMark(Subjects.Maths), generateMark(Subjects.Physics));
+            Student[] studs = { ivanov, petrov, sidorov, doe, smith };
 
 
             foreach (var stud in studs)
@@ -32,6 +63,7 @@ namespace CSEducation
                 Console.WriteLine("Student Details: " + stud);
             }
 
+            Console.WriteLine("Equality: " + (smith.Equals(smith2)));
 
             // finding highest Avg
             decimal highestMathMark = 0;
@@ -39,7 +71,7 @@ namespace CSEducation
             {
                 stud.FindHighestSubjMark(Subjects.Maths, ref highestMathMark);
             }
-            Console.WriteLine("Highest mark for {0} is {1}", Subjects.Maths,  highestMathMark);
+            Console.WriteLine("Highest mark for {0} is {1}", Subjects.Maths, highestMathMark);
 
 
             petrov.ResetAllMarks();
@@ -61,6 +93,7 @@ namespace CSEducation
             } while (!ch.Equals('X'));
 
         }
+
 
         static Mark generateMark(Subjects subj)
         {
@@ -182,7 +215,6 @@ namespace CSEducation
 
         }
 
-
         public override string ToString()
         {
             // DECLARATION statement example
@@ -272,5 +304,81 @@ namespace CSEducation
 
     // available subjects
     enum Subjects { Physics, Maths, English, Arts, Singing };
+
+
+    // Class for task 6
+    public class Employee
+    {
+        private static ulong seqNum = 0;
+
+        private ulong id;
+        public string firstName;
+        public string lastName;
+        public decimal salary;
+
+        public Employee(string firstName, string lastName, decimal salary)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.salary = salary;
+            this.id = ++Employee.seqNum;
+
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} ({3}) earns {2:C2}", this.firstName, this.lastName, this.salary, this.id);
+        }
+
+    }
+    
+    // Helper class for task 6
+    public class EmployeeGenerator
+    {
+        static Random rnd = new Random();
+
+        static string[] firstNames = { "John", "Peter", "Thomas", "Alice", "Joan", "Veronica"};
+        static string[] lastNames = { "Red", "Orange", "Yellow", "Green", "Blue", "Black", "White" };
+
+        public Employee generateEmployee()
+        {
+            return new Employee(firstNames[rnd.Next(firstNames.Length)], lastNames[rnd.Next(lastNames.Length)], rnd.Next(2000, 5001));
+        }
+
+
+        public List<Employee> generateEmployees(int count)
+        {
+            List<Employee> result = new List<Employee>();
+
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(this.generateEmployee());
+            }
+
+            return result;
+        }
+
+    }
+
+    public class SalaryComparer : IComparer<Employee>
+    {
+        public int Compare(Employee x, Employee y)
+        {
+
+            if (x.salary == y.salary)
+                return 0;
+            else
+                return (x.salary > y.salary) ? 1: -1;
+            
+        }
+    }
+
+    public class PIComparer : IComparer<Employee>
+    {
+        public int Compare(Employee x, Employee y)
+        {
+            return(x.firstName + x.lastName).CompareTo(y.firstName + y.lastName);
+        }
+    }
 
 }
