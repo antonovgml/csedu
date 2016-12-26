@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Shopping;
 
 namespace CSEducation
 {
@@ -11,7 +12,29 @@ namespace CSEducation
         static void Main(string[] args)
         {
 
-            task6();
+            Shop shop = new Shop();
+
+            
+            Console.WriteLine("Display Customers");
+            shop.DisplayCustomers();
+            Console.WriteLine("Display Products");
+            shop.DisplayProducts();
+            Console.WriteLine("Display Orders");
+            shop.DisplayOrders();
+
+
+            Console.WriteLine("\nMaking some purchases...");
+            shop.buyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[0], shop.products[4] });
+            shop.buyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[1], shop.products[2], shop.products[3] });
+            shop.buyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[1], shop.products[2] });
+            shop.buyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[2], shop.products[3] });
+
+            Console.WriteLine("\nCurrent state after purchases:");
+
+            Console.WriteLine("Display Products");
+            shop.DisplayProducts();
+            Console.WriteLine("Display Orders");
+            shop.DisplayOrders();
 
         }
 
