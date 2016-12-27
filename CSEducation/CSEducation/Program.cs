@@ -17,23 +17,23 @@ namespace CSEducation
             
             Console.WriteLine("Display Customers");
             shop.DisplayCustomers();
-            Console.WriteLine("Display Products");
+            Console.WriteLine("\nDisplay Products");
             shop.DisplayProducts();
-            Console.WriteLine("Display Orders");
+            Console.WriteLine("\nDisplay Orders");
             shop.DisplayOrders();
 
 
             Console.WriteLine("\nMaking some purchases...");
-            shop.buyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[0], shop.products[4] });
-            shop.buyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[1], shop.products[2], shop.products[3] });
-            shop.buyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[1], shop.products[2] });
-            shop.buyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[2], shop.products[3] });
+            shop.BuyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[0], shop.products[4] });
+            shop.BuyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[1], shop.products[2], shop.products[3] });
+            shop.BuyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[1], shop.products[2] });
+            shop.BuyProducts(shop.customers[rnd.Next(shop.customers.Count)], new Product[] { shop.products[2], shop.products[3] });
 
             Console.WriteLine("\nCurrent state after purchases:");
 
-            Console.WriteLine("Display Products");
+            Console.WriteLine("\nDisplay Products");
             shop.DisplayProducts();
-            Console.WriteLine("Display Orders");
+            Console.WriteLine("\nDisplay Orders");
             shop.DisplayOrders();
 
         }

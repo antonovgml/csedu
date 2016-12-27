@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Shopping
 {
 
-    class Shop
+    public class Shop
     {
 
         Random rnd = new Random();
@@ -12,7 +12,7 @@ namespace Shopping
 
         public List<Product> products { get; }
         public List<Customer> customers { get; }
-        List<Order> orders = new List<Order>();
+        public List<Order> orders = new List<Order>();
 
         public Shop()
         {
@@ -37,10 +37,16 @@ namespace Shopping
         public void DisplayCustomers() { Display(customers); }
         public void DisplayOrders() { Display(orders); }
 
+    }
 
+    /* Shopping Experience extensions */
+
+    public static class ShoppingExperience
+    {
         /*Emulate process of buing products by a customer*/
-        public void buyProducts(Customer customer, Product[] products)
+        public static void BuyProducts(this Shop shop, Customer customer, Product[] products)
         {
+            Random rnd = new Random();
             if ((customer == null) || (products == null))
                 return;
             if (products.Length == 0)
@@ -53,17 +59,17 @@ namespace Shopping
             {
                 buyCount = rnd.Next(1, ((int)prod.amountAvailable) + 1);
                 Console.WriteLine("{0} ({1}) is buying {2} of {3}", customer.fullName, customer.id, buyCount, prod.name);
-                order.AddProduct(prod, (ulong)buyCount);                
+                order.AddProduct(prod, (ulong)buyCount);
             }
 
-            orders.Add(order);
+            shop.orders.Add(order);
         }
 
     }
 
     /* ORDER */
 
-    class Order
+    public class Order
     {
 
         private static ulong seqNum = 0;
@@ -128,7 +134,7 @@ namespace Shopping
 
     /*PERSON base class*/
 
-    class Person
+    public class Person
     {
         protected string firstName;
         protected string lastName;
@@ -143,7 +149,7 @@ namespace Shopping
 
     /* CUSTOMER */
 
-    class Customer: Person
+    public class Customer: Person
     {
         protected static ulong seqNum = 0;
 
@@ -165,7 +171,7 @@ namespace Shopping
 
     /* PRODUCT */
 
-    class Product
+    public class Product
     {
         private static ulong seqNum = 0;
 
