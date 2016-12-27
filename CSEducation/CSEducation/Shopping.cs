@@ -58,11 +58,14 @@ namespace Shopping
             foreach (var prod in products)
             {
                 buyCount = rnd.Next(1, ((int)prod.amountAvailable) + 1);
-                Console.WriteLine("{0} ({1}) is buying {2} of {3}", customer.fullName, customer.id, buyCount, prod.name);
+                Console.WriteLine($"{customer.fullName} ({customer.id}) is buying {buyCount} of {prod.name}");
                 order.AddProduct(prod, (ulong)buyCount);
             }
 
-            shop.orders.Add(order);
+            if (!order.empty)
+            {
+                shop.orders.Add(order);
+            }
         }
 
     }
@@ -91,6 +94,8 @@ namespace Shopping
 
             }
         }
+
+        public bool empty { get { return items.Count == 0; } }
 
         // List of customer - product - price - count
         List<Tuple<string, decimal, ulong>> items = new List<Tuple<string, decimal, ulong>>();
