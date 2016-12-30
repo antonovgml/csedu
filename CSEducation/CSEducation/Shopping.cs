@@ -66,7 +66,9 @@ namespace Shopping
             {
                 shop.orders.Add(order);
             }
+            
         }
+
 
     }
 

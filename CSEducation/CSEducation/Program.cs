@@ -1,20 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
 using Shopping;
+using AnimalWorld;
 
 namespace CSEducation
 {
+
     class Program
     {
-
         static Random rnd = new Random();
 
         static void Main(string[] args)
         {
+            task4();
+        }
 
+        static void task4()
+        {
+            Group<Animal> animals = new Group<Animal>();
+            Group<Animal> alive = new Group<Animal>();
+            animals.add(new Frog("Jimmy")).add(new Crocodile("Billy")).add(new Cat("Kitty")).add(new Penguin("Timmy")).add(new Eagle("Johny"));
+
+            Console.WriteLine("Initial list of animals:");
+            displayByType<Animal>(animals);
+
+            Console.WriteLine("\nJumpers:");
+            displayByType<IJump>(animals);
+            
+            Console.WriteLine("\nFliers:");
+            displayByType<IFly>(animals);
+
+            Console.WriteLine("\nSwimmers:");
+            displayByType<ISwim>(animals);
+            
+            Console.WriteLine("\nPassing over a stream... ");
+            uint streamWidth = (uint)rnd.Next(1, 100);
+
+            foreach (var animal in animals)
+            {
+                if (animal is ISwim)
+                {
+                    if (((ISwim)animal).swim(streamWidth))
+                    {
+                        Console.WriteLine("{0} swimmed the stream", animal);
+                        alive.add(animal);
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} died. RIP...", animal);
+                    }
+                }
+
+                else if (animal is IFly)
+                {
+                    if (((IFly)animal).fly(streamWidth))
+                    {
+                        Console.WriteLine("{0} flew the stream", animal);
+                        alive.add(animal);
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} died. RIP...", animal);
+                    }
+                }
+                else if (animal is IJump)
+                {
+                    if (((IJump)animal).jump(streamWidth))
+                    {
+                        Console.WriteLine("{0} jumped the stream", animal);
+                        alive.add(animal);
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} died. RIP...", animal);
+                    }
+
+                }
+            }
+
+
+            Console.WriteLine("\nAnimals left:");
+            foreach (var animal in alive) { Console.WriteLine(animal); }
+
+            Console.WriteLine("\nFeeding Alive Animals:");
+            foreach (var animal in alive) { animal.eat(); }
+
+        }
+
+        static void displayByType<T>(IEnumerable<Animal> collection)
+         {
+            foreach (var animal in collection) { if (animal is T) Console.WriteLine(animal); }            
+        }
+
+        static void taskShop()
+        {
             Shop shop = new Shop();
 
-            
             Console.WriteLine("Display Customers");
             shop.DisplayCustomers();
             Console.WriteLine("\nDisplay Products");
@@ -35,7 +116,6 @@ namespace CSEducation
             shop.DisplayProducts();
             Console.WriteLine("\nDisplay Orders");
             shop.DisplayOrders();
-
         }
 
         static void task6()
