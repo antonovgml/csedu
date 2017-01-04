@@ -1,7 +1,9 @@
 ﻿using System;
+using Util;
 using System.Collections.Generic;
 using Shopping;
 using AnimalWorld;
+using Inheritance;
 
 namespace CSEducation
 {
@@ -12,7 +14,29 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            task4();
+            task3();
+        }
+
+        static void task3()
+        {            
+            Boy vasya = new Boy("Vasya", "Pupkin", (byte) rnd.Next(1, 150), (float) rnd.NextDouble() * 10);
+            Girl valya = new Girl("Valya", "Pupkina", (byte) rnd.Next(1, 150), (byte) rnd.Next(1, 5));
+
+            
+            C.p("Boy " + vasya);
+            C.p("Girl " + valya);
+            /* similarities */
+
+            ((Human)vasya).BrushTeeth();
+            ((Human)valya).BrushTeeth();
+
+            /* differences */
+
+            vasya.ShaveFace();
+            vasya.WashHead();
+            valya.ShaveLegs();
+            valya.WashHead();
+
         }
 
         static void task4()
