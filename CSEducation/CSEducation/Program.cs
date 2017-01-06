@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Shopping;
 using AnimalWorld;
 using Inheritance;
+using Reflection;
 
 namespace CSEducation
 {
@@ -14,7 +15,19 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            task3();
+            taskReflection();
+        }
+
+        
+
+        static void taskReflection()
+        {
+
+            C.p(Reflection.TypeInfo.AsString<float>());
+            C.p(Reflection.TypeInfo.AsString<string[]>());
+            C.p(Reflection.TypeInfo.AsString<System.ArgumentOutOfRangeException>());
+            C.p(Reflection.TypeInfo.AsString<IComparable>());
+
         }
 
         static void task3()
