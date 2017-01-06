@@ -31,9 +31,9 @@ namespace Reflection
             sbResult.Append("\n  Members: ").Append(ReduceStr<MemberInfo>(type.GetMembers(), member => member.Name));
             sbResult.Append("\n  Public constructors: ").Append( ReduceStr<ConstructorInfo>(type.GetConstructors(), constr => constr.ToString()));
             sbResult.Append("\n  Public fields: ").Append(ReduceStr<FieldInfo>(type.GetFields(), field => field.Name));
-            sbResult.Append("\n  Non-Public fields: ").Append(ReduceStr<FieldInfo>(type.GetFields(BindingFlags.NonPublic) , field => field.Name));
+            sbResult.Append("\n  Non-Public fields: ").Append(ReduceStr<FieldInfo>(type.GetFields(BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance) , field => field.Name));
             sbResult.Append("\n  Public methods: ").Append(ReduceStr<MethodInfo>(type.GetMethods(), method => method.Name));
-            sbResult.Append("\n  Non-Public methods: ").Append(ReduceStr<MethodInfo>(type.GetMethods(BindingFlags.NonPublic), method => method.Name));
+            sbResult.Append("\n  Non-Public methods: ").Append(ReduceStr<MethodInfo>(type.GetMethods(BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance), method => method.Name));
 
             return sbResult.ToString();
             
