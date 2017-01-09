@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimalWorld.cs" />
+    <Compile Include="Strings.cs" />
     <Compile Include="Reflection.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Inheritance.cs" />

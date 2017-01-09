@@ -5,6 +5,7 @@ using Shopping;
 using AnimalWorld;
 using Inheritance;
 using Reflection;
+using Strings;
 
 namespace CSEducation
 {
@@ -15,9 +16,19 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskReflection();
+            taskStrings();
         }
 
+        static void taskStrings()
+        {
+            TextTransformer tt = new TextTransformer("Длинная строка");
+            string str1 = "Другая длинная строка";
+            C.p("\n\nInitial string: {0} \nTransformed string: {1}", new string[] { tt.InitialText, tt.Transform().TransformedText });            
+            C.p("\n\nInitial string: {0} \nTransformed string: {1}", new string[] { str1, tt.TransformWith(str1, Char.ToUpper).TransformedText });
+            C.p("\n\nInitial string: {0} \nTransformed string: {1}", new string[] { tt.TransformedText, tt.TransformWith(tt.TransformedText, Char.ToLower).TransformedText });
+            C.p("\n\nInitial string: {0} \nTransformed string: {1}", new string[] { str1, tt.TransformWith(str1, c => '*').TransformedText });
+            C.p("\n\nInitial string: {0} \nTransformed string: {1}", new string[] { null, tt.Transform(null).TransformedText });
+        }
         
 
         static void taskReflection()
