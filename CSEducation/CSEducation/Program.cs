@@ -4,8 +4,12 @@ using System.Collections.Generic;
 using Shopping;
 using AnimalWorld;
 using Inheritance;
-using Reflection;
 using Strings;
+using InOut;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Net;
+using System.IO;
 
 namespace CSEducation
 {
@@ -16,7 +20,53 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskStrings();
+            taskIO();
+        }
+
+        static void taskIO()
+        {
+            FSReader fsr = new FSReader();
+
+            // run the task asynchronously and pause the main thread till its completion
+            // wait for completion to not let next operation overwrite console contents
+            fsr.listDir(@"C:\Windows").Wait();
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
+            string fileName = @"C:\Windows\win.ini";
+            // write to console
+            fsr.listFileText(fileName, Console.Out);
+            // write (copy) to backup file
+            using (StreamWriter sw = new StreamWriter(File.OpenWrite(fileName + ".bak")))
+            {
+                fsr.listFileText(fileName, sw);
+            }
+                
+
+        }
+
+        async static Task<string> GetSiteContents(string url)
+        {
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+            WebResponse resp = await req.GetResponseAsync();
+            string result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
+            Console.WriteLine(result);
+            return result;
+        }
+
+        static void thr()
+        {
+            
+
+            //Console.WriteLine(Thread.CurrentThread.Name + " started");
+            for (int i = 0; i <=10; i++)
+            {
+                
+                Console.SetCursorPosition(i, int.Parse(Thread.CurrentThread.Name));
+                Console.Write("{0}", i);
+                Thread.Sleep(1000);
+            }
+            //Console.WriteLine(Thread.CurrentThread.Name + " finished");
         }
 
         static void taskStrings()
