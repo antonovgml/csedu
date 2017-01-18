@@ -88,6 +88,7 @@ namespace InOut
                         // work hard
                         Thread.Sleep(50);
                     }
+                    tw.Flush();
                 }
             }
             else
