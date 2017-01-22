@@ -19,7 +19,7 @@ namespace Reflection
             StringBuilder sbResult = new StringBuilder();
 
             Type type = typeof(T);
-            
+/*            
             sbResult.Append("\n  ************************* Type Information for ").Append(type.Name);
             sbResult.Append("\n  Assembly full name: ").Append(type.Assembly.FullName);
             sbResult.Append("\n  Assembly qualified name: ").Append(type.AssemblyQualifiedName);
@@ -34,7 +34,7 @@ namespace Reflection
             sbResult.Append("\n  Non-Public fields: ").Append(ReduceStr<FieldInfo>(type.GetFields(BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance) , field => field.Name));
             sbResult.Append("\n  Public methods: ").Append(ReduceStr<MethodInfo>(type.GetMethods(), method => method.Name));
             sbResult.Append("\n  Non-Public methods: ").Append(ReduceStr<MethodInfo>(type.GetMethods(BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance), method => method.Name));
-
+*/
             return sbResult.ToString();
             
         }
@@ -54,6 +54,7 @@ namespace Reflection
 
         private static string TypeHierarchyString(Type baseType, StringBuilder sbAccum)
         {
+/*
             if (!baseType.IsClass) return "";
             sbAccum.Append(baseType.Name);
             if (baseType == typeof(object))
@@ -65,7 +66,7 @@ namespace Reflection
                 sbAccum.Append(" -> ");
                 TypeHierarchyString(baseType.BaseType, sbAccum);
             }
-
+*/
             return sbAccum.ToString();              
         }
         
