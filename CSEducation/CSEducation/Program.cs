@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
 using System.IO;
+using System.Configuration;
+using ConsumeData;
 
 namespace CSEducation
 {
@@ -20,7 +22,39 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskIO();
+            taskConsumeData();
+        }
+
+        static void taskConsumeData()
+        {
+
+            string bookId = "abc";
+            // creating book object
+            Book book = new Book(bookId);
+            book.Title = "Букварь";
+            book.Author = "Иванов И. И.";
+            book.PublicationYear = 1980;
+            book.Description = "Учебник для 1-го класса";
+            book.Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse molestie turpis vel dignissim rhoncus. Donec vel efficitur dolor, eget volutpat orci. Mauris eu molestie nisi. Mauris commodo justo eu vehicula imperdiet. Aenean sed malesuada mauris, in pellentesque lorem. Ut eu tempor velit. Donec faucibus sagittis dui sed dictum. Pellentesque sollicitudin nibh ipsum, at efficitur ipsum mattis nec. Ut bibendum consequat leo eget iaculis. Maecenas lacus justo, interdum ut mauris ac, lacinia sodales odio. Suspendisse mauris ante, tincidunt eget molestie gravida, finibus non nisl. Maecenas mattis dolor a erat suscipit pretium. Pellentesque risus risus, rhoncus sed placerat vel, aliquet ut erat. Aliquam pretium nisl efficitur, placerat diam eget, rutrum mauris. Phasellus cursus, est vel commodo lacinia, dolor quam elementum magna, id posuere turpis erat at enim.";
+            // store in XML
+            C.p("Saving book to XML...");
+            book.SaveToXML();
+            C.p("Book saved to XML. Please check app's current folder");
+            // read from XML
+            C.p("Reading book from XML...");
+            Book bookRestoredXML = Book.LoadFromXML(bookId);
+            C.p("Book details:");
+            C.p(bookRestoredXML.ToString());
+            // store in JSON
+            C.p("\n\nSaving book to JSON...");
+            bookRestoredXML.SaveToJSON();
+            C.p("Book saved to JSON. Please check app's current folder");
+            // reading from JSON
+            C.p("Reading book from JSON...");
+            Book bookRestoredJSON = Book.LoadFromJSON(bookId);
+            C.p("Book details:");
+            C.p(bookRestoredJSON.ToString());
+
         }
 
         static void taskIO()
