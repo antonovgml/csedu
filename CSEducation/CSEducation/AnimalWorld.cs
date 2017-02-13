@@ -12,7 +12,7 @@ namespace AnimalWorld
         protected static Random rnd = new Random();
         public abstract void eat();        
 
-        protected string nickName { get; set; }
+        public string nickName { get; set; }
 
         public Animal(string nickName)
         {

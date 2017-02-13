@@ -10,8 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
 using System.IO;
-using System.Configuration;
 using ConsumeData;
+using System.Linq;
 
 namespace CSEducation
 {
@@ -22,15 +22,83 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskConsumeData();
+            task4();
+            C.p("\n\n****************Now using LINQ****************\n\n");
+            taskLINQ();
         }
+
+        static void taskLINQ()
+        {
+            Animal[] animals = { new Frog("Jimmy"), new Crocodile("Billy"), new Cat("Kitty"), new Penguin("Timmy"), new Eagle("Johny") };
+
+            C.p("Initial list of animals:");
+            displayAnimals(animals);
+
+            IEnumerable<Animal> jumpers = from animal in animals
+                                          where animal is IJump
+                                          orderby ((IJump)animal).maxDistance
+                                          select animal;
+
+            C.p("\nJumpers ordered by max distance:");
+            displayAnimals(jumpers);
+
+            IEnumerable<Animal> fliers = animals
+                                            .Where(a => a is IFly)
+                                            .Select(a => ((Animal)Activator.CreateInstance(a.GetType(), new Object[]{ a.nickName.ToUpper()})));
+
+
+            C.p("\nFliers CAPITALIZED:");
+            displayAnimals(fliers);
+
+            IEnumerable<Animal> swimmers = from a in animals
+                                           where a is ISwim
+                                           select a;
+            C.p("\nSwimmers:");
+            displayAnimals(swimmers);
+
+            C.p("\nPassing over a stream... ");
+            uint streamWidth = (uint)rnd.Next(1, 100);
+
+            IEnumerable<Animal> swimmedOverStream = animals
+                                                    .Where(a => a is ISwim)
+                                                    .Where(aSwim => ((ISwim)aSwim).swim(streamWidth))
+                                                    .Select(a => a)
+                                                    .ToList();
+                                                    
+            IEnumerable<Animal> flewOverStream = animals
+                                                    .Where(a => a is IFly)
+                                                    .Where(aFly => ((IFly)aFly).fly(streamWidth))
+                                                    .Select(a => a)
+                                                    .ToList();
+
+            IEnumerable<Animal> jumpedOverStream = animals
+                                                    .Where(a => a is IJump)
+                                                    .Where(aJump => ((IJump)aJump).jump(streamWidth))
+                                                    .Select(a => a)
+                                                    .ToList();
+
+
+            Console.WriteLine("\nAnimals left:");
+            foreach (var animal in swimmedOverStream.Union(flewOverStream).Union(jumpedOverStream)) { Console.WriteLine(animal); }
+
+            
+
+
+        }
+
+        static void displayAnimals(IEnumerable<Animal> animals)
+        {
+            foreach (var elem in animals) { Console.WriteLine(elem); }
+        }
+
 
         static void taskConsumeData()
         {
 
             string bookId = "abc";
             // creating book object
-            Book book = new Book(bookId);
+            Book book = new Book();
+            book.Id = bookId;
             book.Title = "Букварь";
             book.Author = "Иванов И. И.";
             book.PublicationYear = 1980;
