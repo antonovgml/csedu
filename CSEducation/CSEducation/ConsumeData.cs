@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace ConsumeData
 {
@@ -18,13 +21,27 @@ namespace ConsumeData
         public const string TEXT = "text";
     }
    
-    internal class Book
+    [Serializable]
+    [DataContract]
+    public class Book
     {
+        [XmlAttribute(TAGS.ID)]
+        [DataMember]
         public string Id { get; set; }
+        [XmlElement(TAGS.TITLE)]
+        [DataMember]
         public string Title { get; set; }
+        [XmlElement(TAGS.AUTHOR)]
+        [DataMember]
         public string Author { get; set; }
+        [XmlElement(TAGS.YEAR)]
+        [DataMember]
         public int PublicationYear { get; set; }
+        [XmlElement(TAGS.DESCR)]
+        [DataMember]
         public string Description { get; set; }
+        [XmlElement(TAGS.TEXT)]
+        [DataMember]
         public string Text { get; set; }
 
         public Book()
@@ -88,7 +105,7 @@ namespace ConsumeData
 
             using (TextWriter tw = File.CreateText(string.Format(@".\{0}.json", this.Id)))
             {
-                tw.WriteLine(jsonStr);
+                tw.Write(jsonStr);
             }
         }
 

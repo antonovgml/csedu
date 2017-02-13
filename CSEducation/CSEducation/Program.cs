@@ -12,19 +12,74 @@ using System.Net;
 using System.IO;
 using ConsumeData;
 using System.Linq;
+using System.Xml.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace CSEducation
 {
-
+    
     class Program
     {
         static Random rnd = new Random();
 
         static void Main(string[] args)
         {
-            task4();
-            C.p("\n\n****************Now using LINQ****************\n\n");
-            taskLINQ();
+            taskConsumeData();
+
+            C.p("\n\n***************** Now using Serialization/Deserialization\n\n");
+
+            taskSerialization();
+        }
+
+        /* Remake task for "Consuming data" chapter using predefined C# serializers. */
+        static void taskSerialization()
+        {
+
+            string bookId = "abc";
+            // creating book object
+            Book book = new Book();
+            book.Id = bookId;
+            book.Title = "Букварь";
+            book.Author = "Иванов И. И.";
+            book.PublicationYear = 1980;
+            book.Description = "Учебник для 1-го класса";
+            book.Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse molestie turpis vel dignissim rhoncus. Donec vel efficitur dolor, eget volutpat orci. Mauris eu molestie nisi. Mauris commodo justo eu vehicula imperdiet. Aenean sed malesuada mauris, in pellentesque lorem. Ut eu tempor velit. Donec faucibus sagittis dui sed dictum. Pellentesque sollicitudin nibh ipsum, at efficitur ipsum mattis nec. Ut bibendum consequat leo eget iaculis. Maecenas lacus justo, interdum ut mauris ac, lacinia sodales odio. Suspendisse mauris ante, tincidunt eget molestie gravida, finibus non nisl. Maecenas mattis dolor a erat suscipit pretium. Pellentesque risus risus, rhoncus sed placerat vel, aliquet ut erat. Aliquam pretium nisl efficitur, placerat diam eget, rutrum mauris. Phasellus cursus, est vel commodo lacinia, dolor quam elementum magna, id posuere turpis erat at enim.";
+
+            // XML
+            XmlSerializer xser = new XmlSerializer(typeof(Book));
+
+            using (StreamWriter sw = File.CreateText(string.Format(@".\{0}-sn.xml", book.Id)))
+            {
+                C.p("Saving book to XML...");
+                xser.Serialize(sw, book);
+                C.p("Book saved to XML. Please check app's current folder");
+            }
+
+            using (StreamReader sr = File.OpenText(string.Format(@".\{0}-sn.xml", book.Id)))
+            {
+                C.p("Reading book from XML...");
+                Book deser = (Book)xser.Deserialize(sr);
+                C.p("Book details:");
+                C.p(deser.ToString());
+            }
+
+            // JSON
+            DataContractJsonSerializer jser = new DataContractJsonSerializer(typeof(Book));
+            using (Stream sw = File.Create(string.Format(@".\{0}-sn.json", book.Id)))
+            {
+                C.p("\n\nSaving book to JSON...");
+                jser.WriteObject(sw,book);
+                C.p("Book saved to JSON. Please check app's current folder");
+            }
+
+            using (Stream sr = File.OpenRead(string.Format(@".\{0}-sn.json", book.Id)))
+            {
+                C.p("Reading book from JSON...");
+                Book deser = (Book)jser.ReadObject(sr);
+                C.p("Book details:");
+                C.p(deser.ToString());
+            }
+
         }
 
         static void taskLINQ()
