@@ -14,6 +14,7 @@ using ConsumeData;
 using System.Linq;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Json;
+using Collections;
 
 namespace CSEducation
 {
@@ -24,11 +25,23 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskConsumeData();
+            taskCollections();
+        }
 
-            C.p("\n\n***************** Now using Serialization/Deserialization\n\n");
+        static void taskCollections()
+        {
+            Crew<Worker> crew = new Crew<Worker>();
 
-            taskSerialization();
+            crew.Add(new Worker { firstName = "Ivan", lastName = "Ivanov" , age = 20 , workPosition = "Engineer" });
+            crew.Add(new Worker { firstName = "Petr", lastName = "Petrov", age = 40, workPosition = "Project Manager" });
+            crew.Add(new Worker { firstName = "Sidor", lastName = "Sidorov", age = 30, workPosition = "Architect" });
+
+            var sortedByWorkPosition = crew.OrderBy(w => w, crew).Select(w => w);            
+
+            foreach (var worker in sortedByWorkPosition){
+                C.p(worker.ToString());
+            }
+            
         }
 
         /* Remake task for "Consuming data" chapter using predefined C# serializers. */
