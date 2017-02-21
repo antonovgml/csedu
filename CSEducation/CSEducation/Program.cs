@@ -15,6 +15,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Json;
 using Collections;
+using Validation;
 
 namespace CSEducation
 {
@@ -25,7 +26,97 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskCollections();
+            taskInputValidation();
+        }
+
+        static void taskInputValidation()
+        {
+            IValidate emailV = new EmailValidator();
+            IValidate urlV = new URLValidator();
+            IValidate pathV = new FilePathValidator();
+
+            C.p("\n\nE-mail validation: \n");
+            foreach(var email in getTestEmails())
+            {
+                C.p("{0,-40} is e-mail valid: {1}", new String[] { email, emailV.validate(email).ToString() });
+            }
+
+            C.p("\n\nURL validation: \n");
+            foreach (var url in getTestUrls())
+            {
+                C.p("{0,-40} is URL valid: {1}", new String[] { url, urlV.validate(url).ToString() });
+            }
+
+            C.p("\n\nFile path validation: \n");
+            foreach (var path in getTestPaths())
+            {
+                C.p("{0,-80} is path valid: {1}", new String[] { path, pathV.validate(path).ToString() });
+            }
+
+
+        }
+
+        static String[] getTestEmails()
+        {
+            return new String[]
+            {
+                "email@domain.com",
+                "firstname.lastname@domain.com",
+                "email@subdomain.domain.com",
+                "firstname+lastname@domain.com",
+                "email@123.123.123.123",
+                "email@[123.123.123.123]",
+                "1234567890@domain.com",
+                "email@domain-one.com",
+                "_______@domain.com",
+                "email@domain.name",
+                "email@domain.co.jp",
+                "firstname-lastname@domain.com",
+                "plainaddress",
+                "#@%^%#$@#$@#.com",
+                "@domain.com",
+                "Joe Smith <email@domain.com>",
+                "email.domain.com",
+                "email@domain@domain.com",
+                "email..email@domain.com",
+                "あいうえお@domain.com",
+                "email@111.222.333.44444"
+
+            };
+        }
+
+        static String[] getTestUrls()
+        {
+            return new String[] {
+                "http://psychopop.org",
+                "http://www.edsroom.com/newUser.asp",
+                "http://unpleasant.jarrin.net/markov/inde",
+                "ftp://psychopop.org",
+                "http://www.edsroom/",
+                "http://un/pleasant.jarrin.net/markov/index.asp",
+                "http://www.myserver.mydomain.com/myfolder/mypage.aspx",
+                "www.myserver.mydomain.com/myfolder/mypage.aspx",
+                "http://",
+                "http://whoisyourdaddy",
+                "httpOrhttpsOrftp.com"
+            };
+        }
+
+        static String[] getTestPaths()
+        {
+            return new String[] {
+                @"c:\Test.txt",
+                @"\\server\shared\Test.txt",
+                @"\\server\shared\Test.t",
+                @"c:\Test",
+                @"\\server\shared",
+                @"\\server\shared\Test.?",
+                @"C:",
+                @"\SomeServer",
+                @"Hello\\",
+                @"../directory/catbus.gif",
+                @"C\\bad\test.t"
+            };
         }
 
         static void taskCollections()

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimalWorld.cs" />
+    <Compile Include="InputValidation.cs" />
     <Compile Include="Collections.cs" />
     <Compile Include="ConsumeData.cs" />
     <Compile Include="InOut.cs" />
