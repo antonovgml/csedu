@@ -16,6 +16,9 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization.Json;
 using Collections;
 using Validation;
+using System.Security.Cryptography;
+using System.Text;
+using Encryption;
 
 namespace CSEducation
 {
@@ -26,7 +29,48 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskInputValidation();
+            taskEncryption();
+
+
+        }
+
+        static void taskEncryption()
+        {
+
+            C.p("Secure remote console started. Press Ctrl + C or type 'exit' command for exit");
+            string message = null;
+            string encrypted = null;
+            OneTimeCrypto crypter = null;
+            byte[] encoded = null;
+            string decoded = null;
+
+            do {
+                Console.Write("root@remote / $ ");
+                message = Console.ReadLine();
+
+                if (message.Length > 50)
+                {
+                    C.p("Maximum commands length should be <= 50 symbols");                    
+                } else if (message.Length == 0)
+                {
+                    C.p("Empty command. Nothing to encrypt");
+                } else if (message.ToLower().Trim().Equals("exit"))
+                {
+                    break;
+                }
+                else 
+                {
+                    // command is OK to be sent to server
+                    encoded = Encoding.UTF8.GetBytes(message);
+                    decoded = Encoding.UTF8.GetString(encoded);                    
+                    crypter = OneTimeCrypto.getInstance();
+                    encrypted = crypter.Encrypt(message);
+                    C.p("Encrypted command is  being sent to server: " + encrypted);
+                    C.p("Server decrypted your command as: \n" + crypter.Decrypt(encrypted));
+                }
+
+            } while (true);
+            
         }
 
         static void taskInputValidation()
