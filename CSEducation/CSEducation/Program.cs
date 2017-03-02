@@ -19,6 +19,8 @@ using Validation;
 using System.Security.Cryptography;
 using System.Text;
 using Encryption;
+using System.Diagnostics;
+using GCD;
 
 namespace CSEducation
 {
@@ -29,7 +31,58 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskEncryption();
+            taskDiagnostics();
+
+
+        }
+
+        static void taskDiagnostics()
+        {
+
+            const int ITERATIONS = 10000;
+
+            int[] numbers = {100, 95, 90, 40, 35, 5, 10 , 20, 85, 80, 50};
+            int result = 0;
+            Stopwatch sw = new Stopwatch();
+
+
+            C.p("Numbers: ");
+
+            foreach(int num in numbers)
+            {
+                Console.Write("" + num + ", " );
+            }
+
+            C.p("\n\nCalculating GCD using loop");
+            sw.Start();
+            for(int i = 0; i < ITERATIONS; i++){
+                result = GCDCalc.Loop(numbers);
+            }
+            sw.Stop();
+            C.p("Result {0}. Elapsed time: {1}", new string[] { result.ToString(), sw.Elapsed.ToString() });
+            sw.Reset();
+
+            C.p("\nCalculating GCD using recursion");
+            sw.Start();
+            for (int i = 0; i < ITERATIONS; i++)
+            {
+                result = GCDCalc.Recur(numbers);
+            }
+            sw.Stop();
+            C.p("Result {0}. Elapsed time: {1}", new string[] { result.ToString(), sw.Elapsed.ToString() });
+            sw.Reset();
+
+
+            C.p("\nCalculating GCD using Euclid algo");
+            sw.Start();
+            for (int i = 0; i < ITERATIONS; i++)
+            {
+                result = GCDCalc.Euclid(numbers);
+            }
+            sw.Stop();
+            C.p("Result {0}. Elapsed time: {1}", new string[] { result.ToString(), sw.Elapsed.ToString() });
+            sw.Reset();
+
 
 
         }
