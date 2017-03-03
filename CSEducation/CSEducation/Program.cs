@@ -21,6 +21,7 @@ using System.Text;
 using Encryption;
 using System.Diagnostics;
 using GCD;
+using Multithreading;
 
 namespace CSEducation
 {
@@ -31,10 +32,49 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskDiagnostics();
+            taskMultithreading();
+        }
 
+        static void taskMultithreading()
+        {
+            string message;
+            //ThreadedStopwatch tsw = new ThreadedStopwatch();
+            List<ThreadedStopwatch> tsws = new List<ThreadedStopwatch>();
+            tsws.Add(new ThreadedStopwatch());
+            tsws.Add(new ThreadedStopwatch(40, 2));
+            tsws.Add(new ThreadedStopwatch(40, 3));
+            C.p("Stopwatch commands are supported: 'start', 'reset', 'restart', 'stop'.\nPress Ctrl + C or type 'exit' command for exit");
+            do
+            {
+                Console.Write("root@localhost / $ ");
+                message = Console.ReadLine().Trim().ToLower(); ;
+
+                switch (message)
+                {
+                    case "start":
+                        foreach (var tsw in tsws) tsw.Start();
+                        break;
+
+                    case "reset":
+                        foreach (var tsw in tsws) tsw.Reset();
+                        break;
+
+                    case "stop":
+                        foreach (var tsw in tsws) tsw.Stop();                        
+                        break;
+
+                    case "restart":
+                        foreach (var tsw in tsws) tsw.Restart();
+                        break;
+
+                    case "exit":
+                        return;
+                }
+
+            } while (true);
 
         }
+
 
         static void taskDiagnostics()
         {
