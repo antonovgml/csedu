@@ -22,6 +22,7 @@ using Encryption;
 using System.Diagnostics;
 using GCD;
 using Multithreading;
+using FlowNS;
 
 namespace CSEducation
 {
@@ -32,7 +33,12 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskMultithreading();
+            taskManageFlow();
+        }
+
+        static void taskManageFlow()
+        {
+            Flow.GetInstance().Run();
         }
 
         static void taskMultithreading()

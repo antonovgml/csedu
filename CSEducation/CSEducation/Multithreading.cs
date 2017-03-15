@@ -10,8 +10,6 @@ namespace Multithreading
      */
      public class ThreadedStopwatch:Stopwatch
     {
-
-        private Thread t;
         [ThreadStatic]
         private int left;
         [ThreadStatic]
