@@ -86,7 +86,7 @@ Statistics available on entered set of numbers:
             {
                 case "":
                     break;
-
+                    
                 case MENU_HELP:
                     this.showMenu();
                     break;

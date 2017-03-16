@@ -23,6 +23,7 @@ using System.Diagnostics;
 using GCD;
 using Multithreading;
 using FlowNS;
+using Evt;
 
 namespace CSEducation
 {
@@ -33,7 +34,24 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskManageFlow();
+            taskEvents();
+        }
+
+        static void taskEvents()
+        {
+            Plant grass = new Plant();
+            Herbivore zebra = new Herbivore();
+            Carnivore lion = new Carnivore();
+
+            zebra.Graze(grass);
+            lion.Hunt(zebra);
+
+            while (true)
+            {
+                grass.Grow(rnd.Next(20));
+                if (!zebra.Alive) break;
+            }
+
         }
 
         static void taskManageFlow()
