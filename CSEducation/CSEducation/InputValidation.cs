@@ -13,6 +13,32 @@ namespace Validation
         bool validate(string value);
     }
 
+    class RangeValidator : IValidate
+    {
+        private long min, max;
+        public RangeValidator(long min, long max)
+        {
+
+            if (min > max) throw new ArgumentException(string.Format("Min value {0} should be less or equal to max value {1}", new string[] { min.ToString(), max.ToString()}));
+            this.min = min;
+            this.max = max;
+
+        }
+
+        bool IValidate.validate(string value)
+        {
+            long longValue;
+            if (long.TryParse(value, out longValue))
+            {
+                return (min <= longValue) && (longValue <= max);
+            }
+            else
+            {
+                return false;
+            }            
+        }
+    }
+
     class RegexValidator : IValidate
     {
 
@@ -52,5 +78,13 @@ namespace Validation
 
         public FilePathValidator(string pattern) : base(pattern) { }
     }
+
+    class NameValidator: RegexValidator
+    {
+        public NameValidator() : base(@"^((?:[A-Z](?:('|(?:[a-z]{1,3}))[A-Z])?[a-z]+)|(?:[A-Z]\.))(?:([ -])((?:[A-Z](?:('|(?:[a-z]{1,3}))[A-Z])?[a-z]+)|(?:[A-Z]\.)))?$") { }
+        public NameValidator(string pattern): base(pattern) { }
+    }
+
+
 
 }

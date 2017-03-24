@@ -24,6 +24,7 @@ using GCD;
 using Multithreading;
 using FlowNS;
 using Evt;
+using CustomExceptions;
 
 namespace CSEducation
 {
@@ -34,8 +35,52 @@ namespace CSEducation
 
         static void Main(string[] args)
         {
-            taskEvents();
+            taskExceptions();
         }
+
+        static void taskExceptions()
+        {
+            List<MyWorker> workers = new List<MyWorker>();
+
+            List<MyWorker> testData = new List<MyWorker>();
+
+            WorkerValidator valid = new WorkerValidator();
+
+            testData.Add(new MyWorker { FirstName = "Ivan", LastName = "Ivanov", Age = 20, JobPosition = "Project Manager" });
+            testData.Add(new MyWorker { FirstName = "Ivan123", LastName = "Ivanov", Age = 0, JobPosition = "Project Manager" });
+            testData.Add(new MyWorker { FirstName = "Petr", LastName = "Petrov", Age = 30, JobPosition = "Tester" });
+            testData.Add(new MyWorker { FirstName = "Petr", LastName = "Petrov?", Age = 5, JobPosition = "Tester" });
+            testData.Add(new MyWorker { FirstName = "Sidor", LastName = "Sidorov", Age = 40, JobPosition = "Designer" });
+            testData.Add(new MyWorker { FirstName = "Sidor", LastName = "Sidorov", Age = 100, JobPosition = "Designer" });
+            testData.Add(null);
+
+
+            foreach (var w in testData)
+            {
+                try
+                {
+                    if (valid.validate(w))
+                    {
+                        workers.Add(w);
+                    }
+
+                }
+                catch (Exception e)
+                {
+
+                    C.p("\nException: " + e.ToString());
+                }
+            }
+
+            C.p("\nList of workers passed validation: ");
+            foreach(var w in workers)
+            {
+                C.p(w.ToString());
+            }
+
+        }
+
+
 
         static void taskEvents()
         {

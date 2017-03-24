@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimalWorld.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="FlowMgmt.cs" />
     <Compile Include="Multithreading.cs" />
